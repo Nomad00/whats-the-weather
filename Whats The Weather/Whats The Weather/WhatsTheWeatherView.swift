@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  WhatsTheWeatherView.swift
 //  Whats The Weather
 //
 //  Created by Michael Stanziano on 3/28/24.
@@ -10,7 +10,7 @@ import LocationLookupFeature
 import SwiftUI
 import WeatherLookupFeature
 
-struct ContentView: View {
+struct WhatsTheWeatherView: View {
     @State var tempString: String = ""
     
     var body: some View {
@@ -46,5 +46,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    WhatsTheWeatherView()
 }
