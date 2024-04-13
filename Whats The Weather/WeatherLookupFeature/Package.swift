@@ -19,6 +19,10 @@ let package = Package(
         .package(
             url: "https://github.com/pointfreeco/swift-composable-architecture",
             exact: "1.9.2"
+        ),
+        .package(
+            url: "https://github.com/apple/swift-docc-plugin",
+            from: "1.3.0"
         )
     ],
     targets: [

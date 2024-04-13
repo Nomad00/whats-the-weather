@@ -10,19 +10,31 @@ import CoreLocation
 import Foundation
 import MapKit
 
+// TODO: Move to dedicated file?
+/// Type returned by ``LocationLookupClient.search``, notably containing the ``results`` collection of ``Address``.
 public struct AddressSearch {
+    /// Collection of ``Address`` returned by ``LocationLookupClient.search``.
     public var results: [Address]
 
+    /// Type representing an individual result returned by ``LocationLookupClient.search``.
     public struct Address: Identifiable {
+        /// Unique identifier of the address.
         public let id: UUID
+        /// The user friendly string representation of the search result.
+        ///
+        /// The granularity of this result will match the search input. A city will result in a city, while a street address will result in a street address.
+        /// - note: Mapped from `title` property of `MKAnnotation`.
         public let title: String
+        /// The `latitude` value for the result.
         public let latitude: Double
+        /// The `longitude` value for the result.
         public let longitude: Double
     }
 }
 
 #if DEBUG
 extension AddressSearch {
+    /// Mock ``AddressSearch`` representing Cupertino, CA used for previews.
     public static var cupertinoSearch: AddressSearch = Self(
         results: [
             .init(
@@ -38,14 +50,30 @@ extension AddressSearch {
 
 
 extension DependencyValues {
+    /// `LocationLookupClient` facilitates searching for a city from an entered string.
+    ///
+    /// Included are four implementations:
+    /// - `liveValue`: Leverages `MKLocalSearch` to create an ``AddressSearch`` from the given string.
+    /// - `previewValue`: Always returns the ``AddressSearch.cupertinoSearch`` as a mock value.
+    /// - `emptyValue`: Returns an empty ``AddressSearch``.
+    /// - `testValue`: An unimplemented version which ensures definition within tests.
     public var locationLookupClient: LocationLookupClient {
         get { self[LocationLookupClient.self] }
         set { self[LocationLookupClient.self] = newValue }
     }
 }
 
+/// A type that facilitates searching for a city from an entered string.
 public struct LocationLookupClient {
-    public var lookupCurrentLocation: @Sendable () async throws -> CLLocation
+    // TODO: Implement if time.
+//    public var lookupCurrentLocation: @Sendable () async throws -> CLLocation
+
+    /// Performs a search with the provided `String`, creating an ``AddressSearch`` with the results.
+    /// 
+    /// Example:
+    /// ```swift
+    /// let addresses: AddressSearch = try await self.location.search("Cupertino")
+    /// ```
     public var search: @Sendable (String) async throws -> AddressSearch
 }
 
@@ -62,10 +90,10 @@ private extension CLLocation {
 
 extension LocationLookupClient: DependencyKey {
     public static var liveValue: LocationLookupClient = Self(
-        lookupCurrentLocation: {
-            // TODO: Build the live client.
-            .applePark
-        },
+//        lookupCurrentLocation: {
+//            // TODO: Build the live client.
+//            .applePark
+//        },
         search: { searchString in
             @Dependency(\.uuid) var uuid
 
@@ -88,24 +116,27 @@ extension LocationLookupClient: DependencyKey {
 }
 
 extension LocationLookupClient: TestDependencyKey {
+    /// An unimplemented version which ensures definition within tests.
     public static var testValue: LocationLookupClient = Self(
-        lookupCurrentLocation: unimplemented("LocationLookupClient.lookupCurrentLocation"),
+//        lookupCurrentLocation: unimplemented("LocationLookupClient.lookupCurrentLocation"),
         search: unimplemented("LocationLookupClient.search")
     )
     
+    /// Always returns the ``AddressSearch.cupertinoSearch`` as a mock value.
     public static var previewValue: LocationLookupClient = Self(
-        lookupCurrentLocation: {
-            .applePark
-        },
+//        lookupCurrentLocation: {
+//            .applePark
+//        },
         search: { _ in
             .cupertinoSearch
         }
     )
 
+    /// Returns an empty ``AddressSearch``.
     public static var emptyValue: LocationLookupClient = Self(
-        lookupCurrentLocation: {
-            .applePark
-        },
+//        lookupCurrentLocation: {
+//            .applePark
+//        },
         search: { _ in
             .init(results: [])
         }

@@ -15,11 +15,12 @@ struct WhatsTheWeatherView: View {
     @State var store: StoreOf<WhatsTheWeatherFeature>
     
     var body: some View {
+        /// `WithPerceptionTracking` is needed for pre-iOS 17 support.
         WithPerceptionTracking {
             VStack {
                 HStack {
                     TextField(
-                        text: $store.searchQuery,
+                        text: $store.searchQuery, // TODO: This seems to be causing the Preview to crash 🤔.
                         prompt: Text("City")
                     ) {
                         Text("City")
@@ -37,6 +38,7 @@ struct WhatsTheWeatherView: View {
                     .font(.callout)
                 }
 
+                /// Don't show the `List` until we have search results.
                 if !store.searchResults.isEmpty {
                     withAnimation {
                         List {
