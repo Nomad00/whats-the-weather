@@ -8,10 +8,6 @@
 import ComposableArchitecture
 import Foundation
 
-// TODO: Don't love this 🤔
-/// The latitude & longitude representation of the location to look up the weather for.
-public typealias LatitudeLongitudePair = (Latitude: Double, Longitude: Double)
-
 extension DependencyValues {
     public var weatherLookupClient: WeatherLookupClient {
         get { self[WeatherLookupClient.self] }

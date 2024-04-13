@@ -57,6 +57,11 @@ struct WhatsTheWeatherView: View {
                 }
             }
             .padding()
+            .sheet(
+                item: self.$store.scope(state: \.weatherLookup, action: \.weatherLookup)
+            ) { store in
+                WeatherLookupView(store: store)
+            }
         }
     }
 }

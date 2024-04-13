@@ -17,8 +17,10 @@ struct WhatsTheWeatherFeature {
         var searchQuery: String = ""
         /// Collection of ``AddressSearch.Address`` provided by the ``WeatherLookupClient``.
         var searchResults: [AddressSearch.Address] = []
+        /// Feature state for the ``WeatherLookupView``.
+        @Presents var weatherLookup: WeatherLookupFeature.State?
     }
-    
+
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         /// Handles the tap on the `LocationButton`.
@@ -27,13 +29,14 @@ struct WhatsTheWeatherFeature {
         case searchResponse(Result<AddressSearch, Error>) // TODO: Create specific error.
         /// Handles the tap on a search result, triggers call to ``WeatherLookupClient.lookupWeatherFor``.
         case searchResultTapped(AddressSearch.Address)
+        case weatherLookup(PresentationAction<WeatherLookupFeature.Action>)
         /// Handles the response from ``WeatherLookupClient.lookupWeatherFor``.
         case weatherResponse(Result<Weather, Error>) // TODO: Create specific error.
     }
-    
+
     @Dependency(\.locationLookupClient) var location
     @Dependency(\.weatherLookupClient) var weather
-    
+
     /// `enum` cases used as cancellation IDs for async calls.
     private enum CancelID { case search, weather }
 
@@ -75,12 +78,22 @@ struct WhatsTheWeatherFeature {
                         )
                     )
                 }
+            case .weatherLookup:
+                /// Don't need to worry about any actions here.
+                return .none
             case let .weatherResponse(.success(weather)):
+                state.weatherLookup = .init(weather: weather)
                 return .none
             case .weatherResponse(.failure):
                 // TODO: Handle weather failures.
                 return .none
             }
+        }
+        .ifLet(
+            \.$weatherLookup,
+             action: \.weatherLookup
+        ) {
+            WeatherLookupFeature()
         }
     }
 }
