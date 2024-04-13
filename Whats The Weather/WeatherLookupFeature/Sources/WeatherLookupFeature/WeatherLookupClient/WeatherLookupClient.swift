@@ -20,7 +20,7 @@ extension DependencyValues {
 }
 
 public struct WeatherLookupClient {
-    public var lookupWeatherFor: @Sendable (LatitudeLongitudePair) async -> Weather
+    public var lookupWeatherFor: @Sendable (LatitudeLongitudePair) async throws -> Weather
 }
 
 extension WeatherLookupClient: DependencyKey {

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C4BFCB192BB5E6A3000EFF25 /* Whats_The_WeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BFCB182BB5E6A3000EFF25 /* Whats_The_WeatherApp.swift */; };
-		C4BFCB1B2BB5E6A3000EFF25 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BFCB1A2BB5E6A3000EFF25 /* ContentView.swift */; };
+		C4BFCB1B2BB5E6A3000EFF25 /* WhatsTheWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BFCB1A2BB5E6A3000EFF25 /* WhatsTheWeatherView.swift */; };
 		C4BFCB1D2BB5E6A4000EFF25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4BFCB1C2BB5E6A4000EFF25 /* Assets.xcassets */; };
 		C4BFCB212BB5E6A4000EFF25 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4BFCB202BB5E6A4000EFF25 /* Preview Assets.xcassets */; };
 		C4BFCB2B2BB5E6A4000EFF25 /* Whats_The_WeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BFCB2A2BB5E6A4000EFF25 /* Whats_The_WeatherTests.swift */; };
@@ -17,6 +17,7 @@
 		C4BFCB462BB5E739000EFF25 /* WeatherLookupFeature in Frameworks */ = {isa = PBXBuildFile; productRef = C4BFCB452BB5E739000EFF25 /* WeatherLookupFeature */; };
 		C4BFCB4A2BBB4AEE000EFF25 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = C4BFCB492BBB4AEE000EFF25 /* ComposableArchitecture */; };
 		C4BFCB4D2BBB8B7D000EFF25 /* LocationLookupFeature in Frameworks */ = {isa = PBXBuildFile; productRef = C4BFCB4C2BBB8B7D000EFF25 /* LocationLookupFeature */; };
+		C4BFCB4F2BC22265000EFF25 /* WhatsTheWeatherFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BFCB4E2BC22265000EFF25 /* WhatsTheWeatherFeature.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +40,7 @@
 /* Begin PBXFileReference section */
 		C4BFCB152BB5E6A3000EFF25 /* Whats The Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Whats The Weather.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4BFCB182BB5E6A3000EFF25 /* Whats_The_WeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Whats_The_WeatherApp.swift; sourceTree = "<group>"; };
-		C4BFCB1A2BB5E6A3000EFF25 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C4BFCB1A2BB5E6A3000EFF25 /* WhatsTheWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsTheWeatherView.swift; sourceTree = "<group>"; };
 		C4BFCB1C2BB5E6A4000EFF25 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4BFCB1E2BB5E6A4000EFF25 /* Whats_The_Weather.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Whats_The_Weather.entitlements; sourceTree = "<group>"; };
 		C4BFCB202BB5E6A4000EFF25 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -50,6 +51,7 @@
 		C4BFCB362BB5E6A4000EFF25 /* Whats_The_WeatherUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Whats_The_WeatherUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C4BFCB432BB5E6FA000EFF25 /* WeatherLookupFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WeatherLookupFeature; sourceTree = "<group>"; };
 		C4BFCB4B2BBB8AE1000EFF25 /* LocationLookupFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LocationLookupFeature; sourceTree = "<group>"; };
+		C4BFCB4E2BC22265000EFF25 /* WhatsTheWeatherFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsTheWeatherFeature.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				C4BFCB182BB5E6A3000EFF25 /* Whats_The_WeatherApp.swift */,
-				C4BFCB1A2BB5E6A3000EFF25 /* ContentView.swift */,
+				C4BFCB1A2BB5E6A3000EFF25 /* WhatsTheWeatherView.swift */,
+				C4BFCB4E2BC22265000EFF25 /* WhatsTheWeatherFeature.swift */,
 				C4BFCB1C2BB5E6A4000EFF25 /* Assets.xcassets */,
 				C4BFCB1E2BB5E6A4000EFF25 /* Whats_The_Weather.entitlements */,
 				C4BFCB1F2BB5E6A4000EFF25 /* Preview Content */,
@@ -285,7 +288,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4BFCB1B2BB5E6A3000EFF25 /* ContentView.swift in Sources */,
+				C4BFCB4F2BC22265000EFF25 /* WhatsTheWeatherFeature.swift in Sources */,
+				C4BFCB1B2BB5E6A3000EFF25 /* WhatsTheWeatherView.swift in Sources */,
 				C4BFCB192BB5E6A3000EFF25 /* Whats_The_WeatherApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -5,46 +5,90 @@
 //  Created by Michael Stanziano on 3/28/24.
 //
 
+import ComposableArchitecture
 import CoreLocationUI
 import LocationLookupFeature
 import SwiftUI
 import WeatherLookupFeature
 
 struct WhatsTheWeatherView: View {
-    @State var tempString: String = ""
+    @State var store: StoreOf<WhatsTheWeatherFeature>
     
     var body: some View {
-        VStack {
-            HStack {
-                TextField(
-                    text: $tempString,
-                    prompt: Text("City")) {
-                        Text("Location")
+        WithPerceptionTracking {
+            VStack {
+                HStack {
+                    TextField(
+                        text: $store.searchQuery,
+                        prompt: Text("City")
+                    ) {
+                        Text("City")
                     }
                     .textFieldStyle(.roundedBorder)
                     .padding(.leading)
-                // TODO: Can this work in the Preview?
-                LocationButton(.currentLocation) {
-                    // TODO: Respond to action.
+                    // TODO: Can this work in the Preview?
+                    LocationButton(.currentLocation) {
+                        store.send(.lookupCurrentLocationButtonTapped)
+                    }
+                    .labelStyle(.iconOnly)
+                    .symbolVariant(.circle)
+                    .cornerRadius(20)
+                    .foregroundColor(.white)
+                    .font(.callout)
                 }
-                .labelStyle(.iconOnly)
-                .symbolVariant(.circle)
-                .cornerRadius(20)
-                .foregroundColor(.white)
-                .font(.callout)
-            }
-            Button {
-                // TODO: Respond to action.
-            } label: {
-                Text("What's the weather?")
-            }
-            .buttonStyle(.borderedProminent)
 
+                if !store.searchResults.isEmpty {
+                    withAnimation {
+                        List {
+                            ForEach(store.searchResults) { address in
+                                VStack(alignment: .leading) {
+                                    Button {
+                                        store.send(.searchResultTapped(address))
+                                    } label: {
+                                        Text(address.title)
+                                    }
+                                }
+                            }
+                        }
+                        .listStyle(.plain)
+                    }
+                }
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
-#Preview {
-    WhatsTheWeatherView()
+#Preview("Initial State") {
+    WhatsTheWeatherView(
+        store: Store(initialState: WhatsTheWeatherFeature.State()) {
+            WhatsTheWeatherFeature()
+        }
+    )
 }
+
+#Preview("Searching") {
+    WhatsTheWeatherView(
+        store: Store(
+            initialState: WhatsTheWeatherFeature.State(
+                searchQuery: "Cuper"
+            )
+        ) {
+            WhatsTheWeatherFeature()
+        }
+    )
+}
+
+#Preview("Search Results") {
+    WhatsTheWeatherView(
+        store: Store(
+            initialState: WhatsTheWeatherFeature.State(
+                searchQuery: "Cuper",
+                searchResults: AddressSearch.cupertinoSearch.results
+            )
+        ) {
+            WhatsTheWeatherFeature()
+        }
+    )
+}
+
