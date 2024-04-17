@@ -30,12 +30,9 @@ struct WhatsTheWeatherFeature {
         /// Handles the tap on a search result, triggers call to ``WeatherLookupClient.lookupWeatherFor``.
         case searchResultTapped(AddressSearch.Address)
         case weatherLookup(PresentationAction<WeatherLookupFeature.Action>)
-        /// Handles the response from ``WeatherLookupClient.lookupWeatherFor``.
-        case weatherResponse(Result<Weather, Error>) // TODO: Create specific error.
     }
 
     @Dependency(\.locationLookupClient) var location
-    @Dependency(\.weatherLookupClient) var weather
 
     /// `enum` cases used as cancellation IDs for async calls.
     private enum CancelID { case search, weather }
@@ -47,7 +44,7 @@ struct WhatsTheWeatherFeature {
             case .binding(\.searchQuery):
                 /// Don't search with an empty string.
                 guard !state.searchQuery.isEmpty else { return .none }
-
+                
                 return .run { [search = state.searchQuery] send in
                     await send(
                         .searchResponse(
@@ -69,23 +66,15 @@ struct WhatsTheWeatherFeature {
                 // TODO: Handle search failures.
                 return .none
             case let .searchResultTapped(address):
-                return .run { send in
-                    await send(
-                        .weatherResponse(
-                            Result {
-                                try await self.weather.lookupWeatherFor((address.latitude, address.longitude))
-                            }
-                        )
+                state.weatherLookup = .init(
+                    latitudeLongitudePair: .init(
+                        latitude: address.latitude,
+                        longitude: address.longitude
                     )
-                }
+                )
+                return .none
             case .weatherLookup:
                 /// Don't need to worry about any actions here.
-                return .none
-            case let .weatherResponse(.success(weather)):
-                state.weatherLookup = .init(weather: weather)
-                return .none
-            case .weatherResponse(.failure):
-                // TODO: Handle weather failures.
                 return .none
             }
         }

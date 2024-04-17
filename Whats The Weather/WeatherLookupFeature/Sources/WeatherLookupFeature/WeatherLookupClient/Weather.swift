@@ -7,9 +7,25 @@
 
 import Foundation
 
-// TODO: Don't love this 🤔
+// TODO: Don't love this name 🤔 Really don't want to pull in `CoreLocation` though.
 /// The latitude & longitude representation of the location to look up the weather for.
-public typealias LatitudeLongitudePair = (Latitude: Double, Longitude: Double)
+public struct LatitudeLongitudePair {
+    public init(latitude: Double, longitude: Double) {
+        self.latitude = latitude
+        self.longitude = longitude
+    }
+    
+    let latitude: Double
+    let longitude: Double
+}
+
+extension LatitudeLongitudePair {
+    /// Fun helper to use the location of Apple Park.
+    static var applePark: LatitudeLongitudePair = .init(
+        latitude: 37.334606,
+        longitude: -122.009102
+    )
+}
 
 /// Data type returned by the ``WeatherLookupClient``.
 public struct Weather {

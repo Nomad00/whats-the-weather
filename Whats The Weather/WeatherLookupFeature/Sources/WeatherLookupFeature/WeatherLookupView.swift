@@ -23,35 +23,49 @@ public struct WeatherLookupView: View {
     public var body: some View {
         /// `WithPerceptionTracking` is needed for pre-iOS 17 support.
         WithPerceptionTracking {
-            VStack {
-                Button {
-                    store.send(
-                        .binding(
-                            .set(
-                                \.temperatureDisplayUnit,
-                                 store.temperatureDisplayUnit == .fahrenheit ? .celsius : .fahrenheit
+            if let weather = store.weather {
+                VStack {
+                    Button {
+                        store.send(
+                            .binding(
+                                .set(
+                                    \.temperatureDisplayUnit,
+                                     store.temperatureDisplayUnit == .fahrenheit ? .celsius : .fahrenheit
+                                )
                             )
                         )
-                    )
-                } label: {
-                    Text("Toggle unit format.")
-                }
+                    } label: {
+                        Text("Toggle unit format.")
+                    }
 
-                HStack {
-                    Text(
-                        Measurement<UnitTemperature>.init(
-                            value: store.weather.temperature,
-                            unit: $store.temperatureDisplayUnit.wrappedValue
-                        ),
-                        format: temperatureFormatStyle
-                    )
-                    /// This is only needed due to the issue with the `.abbreviated` `FormatStyle`.
-                    Text(
-                        store.temperatureDisplayUnit == .fahrenheit ? "F" : "C"
-                    )
+                    HStack {
+                        Text(
+                            Measurement<UnitTemperature>.init(
+                                value: weather.temperature,
+                                unit: $store.temperatureDisplayUnit.wrappedValue
+                            ),
+                            format: temperatureFormatStyle
+                        )
+                        /// This is only needed due to the issue with the `.abbreviated` `FormatStyle`.
+                        Text(
+                            store.temperatureDisplayUnit == .fahrenheit ? "F" : "C"
+                        )
+                    }
+                    Text(weather.description)
+                    Button {
+                        store.send(.refresh)
+                    } label: {
+                        Text("Refresh")
+                    }
                 }
-                Text(store.weather.description)
+            } else {
+                ProgressView {
+                    Text("Checking the weather...")
+                }
             }
+        }
+        .task {
+            await store.send(.onTask).finish()
         }
     }
 }
@@ -60,7 +74,7 @@ public struct WeatherLookupView: View {
     WeatherLookupView(
         store: Store(
             initialState: WeatherLookupFeature.State(
-                weather: .mock
+                latitudeLongitudePair: .applePark
             )
         ) {
             WeatherLookupFeature()
@@ -72,11 +86,24 @@ public struct WeatherLookupView: View {
     WeatherLookupView(
         store: Store(
             initialState: WeatherLookupFeature.State(
-                weather: .mock,
+                latitudeLongitudePair: .applePark,
                 temperatureDisplayUnit: .celsius
             )
         ) {
             WeatherLookupFeature()
+        }
+    )
+}
+
+#Preview("Loading | Refreshable") {
+    WeatherLookupView(
+        store: Store(
+            initialState: WeatherLookupFeature.State(
+                latitudeLongitudePair: .applePark
+            )
+        ) {
+            WeatherLookupFeature()
+                .dependency(\.weatherLookupClient, .loadingValue)
         }
     )
 }
