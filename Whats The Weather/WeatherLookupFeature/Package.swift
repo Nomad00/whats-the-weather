@@ -18,7 +18,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/pointfreeco/swift-composable-architecture",
-            exact: "1.9.2"
+            exact: "1.9.3"
         ),
         .package(
             url: "https://github.com/apple/swift-docc-plugin",
